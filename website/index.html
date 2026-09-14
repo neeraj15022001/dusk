@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#081d28" />
+    <meta name="description" content="A softer way to close your Mac. Explore five hinge-driven effects in an interactive 3D demo, then build Dusk, the free and open-source macOS utility." />
+    <link rel="canonical" href="https://neeraj15022001.github.io/dusk/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dusk — A softer way to close your Mac" />
+    <meta property="og:description" content="Five effects. One quiet ritual. Try Dusk’s interactive lid demo." />
+    <meta property="og:url" content="https://neeraj15022001.github.io/dusk/" />
+    <meta property="og:image" content="https://neeraj15022001.github.io/dusk/social.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <title>Dusk — A softer way to close your Mac</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="#" aria-label="Dusk home"><span class="brand-mark" aria-hidden="true">◒</span>Dusk</a>
+      <nav aria-label="Main navigation">
+        <a href="#effects">The effects</a>
+        <a href="https://github.com/neeraj15022001/dusk" class="source-link">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="availability"><span aria-hidden="true"></span> A small ritual for your MacBook</p>
+          <h1 id="hero-title">A softer way<br />to close<br />your Mac.</h1>
+          <p class="hero-description">Let your screen follow your lid. A little blur, a slow fade, a quieter end to your day.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#get-dusk">Get Dusk <span aria-hidden="true">↓</span></a>
+            <a class="text-link" href="https://github.com/neeraj15022001/dusk">Explore the source <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="hero-meta">Free & open source <span aria-hidden="true">/</span> macOS 13+</p>
+        </div>
+
+        <div class="demo" id="playground">
+          <div class="demo-topline"><span class="demo-status"><span aria-hidden="true"></span> Interactive preview</span><span class="demo-hint">Drag the laptop to close</span></div>
+          <div class="stage" id="stage">
+            <canvas id="laptop" aria-label="Interactive 3D laptop preview. Use the lid angle slider below to control the animation."></canvas>
+            <canvas id="fallback" class="fallback" hidden aria-label="Two-dimensional effect preview"></canvas>
+            <span class="stage-caption" aria-hidden="true">A moment of calm.</span>
+          </div>
+          <div class="demo-controls">
+            <div class="angle-heading"><label for="lid-angle">Lid angle</label><output id="angle-value" for="lid-angle">95°</output></div>
+            <input id="lid-angle" type="range" min="0" max="110" step="1" value="95" aria-describedby="demo-explainer" />
+            <div class="range-ends"><span>Closed</span><span>Open</span></div>
+            <button class="play-button" id="play" type="button"><span aria-hidden="true">▷</span> Close & reopen</button>
+            <label class="preview-picker" for="preview-effect">Effect
+              <select id="preview-effect">
+                <option value="softBlur">Soft blur</option><option value="fade">Fade</option>
+                <option value="aperture">Camera aperture</option><option value="shutters">Cinema shutters</option><option value="crt">CRT sleep</option>
+              </select>
+            </label>
+            <p id="demo-explainer">Illustrated demo. Your device stays untouched.</p>
+            <p id="render-status" class="render-status" role="status"></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="effects" class="effects wrap" aria-labelledby="effects-title">
+        <div class="section-intro"><h2 id="effects-title">Close it your way.</h2><p>Five ways to wind down. Pick one, then move the lid.</p></div>
+        <div class="effect-options" role="group" aria-label="Choose a closing effect">
+          <button class="effect-option active" data-effect="softBlur" aria-pressed="true" type="button"><span class="effect-icon blur-icon" aria-hidden="true"></span><span>Soft blur</span></button>
+          <button class="effect-option" data-effect="fade" aria-pressed="false" type="button"><span class="effect-icon fade-icon" aria-hidden="true"></span><span>Fade</span></button>
+          <button class="effect-option" data-effect="aperture" aria-pressed="false" type="button"><span class="effect-icon aperture-icon" aria-hidden="true">◉</span><span>Camera aperture</span></button>
+          <button class="effect-option" data-effect="shutters" aria-pressed="false" type="button"><span class="effect-icon shutter-icon" aria-hidden="true"></span><span>Cinema shutters</span></button>
+          <button class="effect-option" data-effect="crt" aria-pressed="false" type="button"><span class="effect-icon crt-icon" aria-hidden="true"></span><span>CRT sleep</span></button>
+        </div>
+        <div class="effect-description"><p id="effect-description" aria-live="polite">The desktop softens, then slips into darkness.</p><span id="closure-value">0% closed</span></div>
+        <p id="motion-note" class="motion-note" hidden>Reduced motion is on. The preview uses Fade and keeps the laptop still.</p>
+      </section>
+
+      <section class="quiet-section wrap" aria-labelledby="quiet-title">
+        <div class="quiet-title"><h2 id="quiet-title">A little atmosphere.<br />Nothing extra.</h2><p>Made to feel at home on your Mac,<br />and stay out of your way.</p></div>
+        <div class="principles">
+          <article><span class="principle-symbol" aria-hidden="true">◌</span><h3>Your screen stays yours.</h3><p>No desktop recording. No telemetry. Dusk’s native effects need no Screen Recording permission.</p></article>
+          <article><span class="principle-symbol" aria-hidden="true">⌁</span><h3>Follows your movement.</h3><p>Stop halfway and the effect holds. Open your lid and everything comes back into focus.</p></article>
+          <article><span class="principle-symbol" aria-hidden="true">⌘</span><h3>Always in your hands.</h3><p>Only the built-in display changes. Pause from the menu bar or press <kbd>⌃⌥⌘K</kbd> to clear the effect.</p></article>
+        </div>
+      </section>
+
+      <section id="get-dusk" class="install-section" aria-labelledby="install-title">
+        <div class="wrap install-grid">
+          <div><p class="release-note">Dusk 1.2.0 · MIT licensed</p><h2 id="install-title">Make it part<br />of your Mac.</h2><p>Build a little calm into your day. Dusk is free to use, change, and make your own.</p><a class="text-link" href="https://github.com/neeraj15022001/dusk/releases/latest">Read the release notes <span aria-hidden="true">↗</span></a></div>
+          <div class="install-guide">
+            <div class="code-heading"><span>Build from source</span><button id="copy" type="button">Copy commands</button></div>
+            <pre><code id="commands">git clone https://github.com/neeraj15022001/dusk.git
+cd dusk
+bash scripts/build-app.sh
+open dist/Dusk.app</code></pre>
+            <p class="install-note">Requires macOS 13+, Swift 5.9+, and Xcode Command Line Tools. Install the tools with <code>xcode-select --install</code> if needed.</p>
+            <p class="install-note">Source-first release. Local builds are ad-hoc signed; no notarized app download is currently supplied.</p>
+            <span id="copy-status" class="sr-only" role="status"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="questions wrap" aria-labelledby="questions-title">
+        <h2 id="questions-title">A few things to know.</h2>
+        <div class="question-list">
+          <details><summary>Will it work on my MacBook?<span aria-hidden="true">+</span></summary><p>Automatic effects need a compatible Apple HID hinge angle sensor. Development checks covered an M3 MacBook Air; support varies by model. Unsupported sensors leave your desktop clear, and you can still use the app’s simulator and four-second preview. <a href="https://github.com/neeraj15022001/dusk/blob/main/docs/TESTING.md">See compatibility notes.</a></p></details>
+          <details><summary>Does the website read my actual hinge angle?<span aria-hidden="true">+</span></summary><p>No. This is a synthetic Three.js demonstration controlled by your mouse, touch, or keyboard. The native Dusk app reads the hinge sensor locally. The browser preview approximates the effects; macOS controls the native backdrop blur.</p></details>
+          <details><summary>What about accessibility and normal sleep?<span aria-hidden="true">+</span></summary><p>Dusk uses Fade when Reduce Motion is enabled. It keeps normal macOS sleep behavior and clears effects on pause, quit, sleep, and stale sensor readings. The overlay is a visual effect, not a lock screen or a privacy boundary.</p></details>
+          <details><summary>Can I contribute, including with AI tools?<span aria-hidden="true">+</span></summary><p>Yes. Dusk was built with substantial Codex assistance under the maintainer’s direction. Focused patches, hardware reports, and accessibility improvements are welcome. <a href="https://github.com/neeraj15022001/dusk/blob/main/CONTRIBUTING.md">Read the contribution guide</a> and <a href="https://github.com/neeraj15022001/dusk/blob/main/AI_POLICY.md">AI policy</a>.</p></details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer wrap"><a href="#" class="wordmark">Dusk</a><p>A quieter close. An open beginning.</p><div><a href="https://github.com/neeraj15022001/dusk">GitHub</a><a href="https://github.com/neeraj15022001/dusk/blob/main/LICENSE">MIT license</a><a href="./THIRD_PARTY_LICENSES.txt">Third-party notices</a><a href="https://github.com/neeraj15022001/dusk/blob/main/AI_POLICY.md">AI disclosure</a></div></footer>
+    <noscript><p class="noscript">Enable JavaScript for the interactive preview. Dusk’s source and build instructions remain available above.</p></noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

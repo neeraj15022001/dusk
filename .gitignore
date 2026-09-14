@@ -12,3 +12,5 @@ dist/
 *.p12
 *.mobileprovision
 *.log
+node_modules/
+website/dist/

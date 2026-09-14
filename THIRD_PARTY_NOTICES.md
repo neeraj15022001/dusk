@@ -2,6 +2,8 @@
 
 Dusk has no third-party Swift package dependencies and vendors no third-party source code.
 
+The separate landing website uses [Three.js](https://github.com/mrdoob/three) (MIT) at runtime and [Vite](https://github.com/vitejs/vite) (MIT) for builds. Versions and transitive dependencies are recorded in `website/package-lock.json`; their notices are included with the deployed website. These packages are not linked into the native app.
+
 ## Hardware research
 
 The hinge sensor approach was informed by [Sam Gold's LidAngleSensor project](https://github.com/samhenrigold/LidAngleSensor), its [hardware notes](https://github.com/samhenrigold/LidAngleSensor#faq), and the local MacBook's IORegistry descriptor. Dusk implements its own sensor discovery, polling, report decoding, and failure handling. This acknowledgement does not imply affiliation or endorsement.

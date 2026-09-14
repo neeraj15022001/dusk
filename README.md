@@ -13,7 +13,9 @@ Dusk is a native macOS menu bar app that follows your MacBook's hinge angle. Fiv
 
 No desktop recording, telemetry, network service, or third-party package dependencies. Built with Swift, SwiftUI, AppKit, and IOKit.
 
-[Get started](#build-and-run) · [Effects](#effects) · [Contribute](CONTRIBUTING.md) · [AI disclosure](AI_POLICY.md) · [Changelog](CHANGELOG.md)
+[Website & interactive demo](https://neeraj15022001.github.io/dusk/) · [Get started](#build-and-run) · [Effects](#effects) · [Contribute](CONTRIBUTING.md) · [AI disclosure](AI_POLICY.md) · [Changelog](CHANGELOG.md)
+
+The [landing website](https://neeraj15022001.github.io/dusk/) includes an interactive Three.js laptop with all five effects. It is a synthetic demonstration, not a browser hinge sensor. GitHub Actions builds and deploys it to GitHub Pages; source and development instructions are in [`website/`](website/README.md).
 
 ## Compatibility
 

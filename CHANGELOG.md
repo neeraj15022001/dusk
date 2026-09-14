@@ -4,7 +4,7 @@ Changes are grouped by release. Dates refer to public releases, not internal dev
 
 ## [Unreleased]
 
-No changes yet.
+- Added the GitHub Pages landing website with an interactive Three.js laptop, five effect previews, accessible controls, and a GitHub Actions build/deployment workflow. The native app is unchanged.
 
 ## [1.2.0] - 2026-09-14
 

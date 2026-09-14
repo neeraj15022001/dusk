@@ -18,7 +18,9 @@ For substantial features or new dependencies, open a feature request first so sc
 4. Run `bash scripts/test.sh` and `bash scripts/build-app.sh`.
 5. Open `dist/Dusk.app` to try the change. Quit an existing Dusk instance before launching a rebuilt copy.
 
-There are no third-party package dependencies. `Sources/DuskCore` contains deterministic effect math and HID report decoding. `Sources/Dusk` contains the AppKit/SwiftUI app and IOKit sensor integration. Tests are a standalone Swift executable, so a full Xcode installation is not required.
+The native app has no third-party package dependencies. `Sources/DuskCore` contains deterministic effect math and HID report decoding. `Sources/Dusk` contains the AppKit/SwiftUI app and IOKit sensor integration. Tests are a standalone Swift executable, so a full Xcode installation is not required.
+
+For website changes, follow [`website/README.md`](website/README.md). Use Node.js 22.12+ and run `npm ci`, `npm test`, and `npm run build` from `website/`. Check desktop and mobile layouts, keyboard controls, and the preview in a browser. Website dependencies are separate from the native app. Pull requests build in GitHub Actions; publication happens after a push to `main`.
 
 ## Protect the desktop experience
 
