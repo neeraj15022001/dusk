@@ -52,7 +52,8 @@ final class EffectArtworkView: NSView {
         let reach = hypot(bounds.width, bounds.height) * 2
         for (i, vertex) in vertices.enumerated() {
             let a = Double(i) * .pi / 4 + rotation + .pi / 2
-            let outer = CGPoint(x: vertex.x + cos(a) * reach, y: vertex.y + sin(a) * reach)
+            let outer = CGPoint(x: vertex.x + cos(CGFloat(a)) * reach,
+                                y: vertex.y + sin(CGFloat(a)) * reach)
             ctx.setStrokeColor(NSColor(white: 0.32, alpha: sin(p * .pi) * 0.35).cgColor)
             ctx.setLineWidth(max(0.65, bounds.height / 1100))
             ctx.move(to: vertex); ctx.addLine(to: outer); ctx.strokePath()
@@ -62,9 +63,11 @@ final class EffectArtworkView: NSView {
 
     private func drawCRT(_ ctx: CGContext, progress p: Double) {
         let opening = EffectGeometry.crtOpening(progress: p)
-        let hole = CGRect(x: bounds.width * (1 - opening.width) / 2,
-                          y: bounds.height * (1 - opening.height) / 2,
-                          width: bounds.width * opening.width, height: bounds.height * opening.height)
+        let width = bounds.width * CGFloat(opening.width)
+        let height = bounds.height * CGFloat(opening.height)
+        let hole = CGRect(x: (bounds.width - width) / 2,
+                          y: (bounds.height - height) / 2,
+                          width: width, height: height)
         let path = CGMutablePath()
         path.addRect(bounds)
         if p < 1 { path.addRect(hole) }
