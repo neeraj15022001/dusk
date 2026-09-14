@@ -1,0 +1,14 @@
+.build/
+.build-*/
+dist/
+.firecrawl/
+.DS_Store
+*.xcodeproj/xcuserdata/
+.swiftpm/
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.mobileprovision
+*.log

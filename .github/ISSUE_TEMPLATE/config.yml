@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability privately
+    url: https://github.com/neeraj15022001/dusk/security/advisories/new
+    about: Please do not disclose vulnerabilities in public issues.
+  - name: Support and troubleshooting
+    url: https://github.com/neeraj15022001/dusk/blob/main/SUPPORT.md
+    about: Read help and compatibility notes before filing a report.

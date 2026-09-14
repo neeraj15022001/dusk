@@ -1,0 +1,33 @@
+name: macOS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-check:
+    name: Build and check
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Show toolchain
+        run: swift --version
+      - name: Run effect and sensor-decoding checks
+        run: bash scripts/test.sh
+      - name: Build app
+        run: bash scripts/build-app.sh
+      - name: Verify bundle signature
+        run: codesign --verify --deep --strict dist/Dusk.app

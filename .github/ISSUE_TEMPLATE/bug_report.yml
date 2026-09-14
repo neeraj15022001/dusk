@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a reproducible problem with Dusk.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "For vulnerabilities, use private security reporting. Never include serial numbers, credentials, or unredacted logs."
+  - type: input
+    id: version
+    attributes:
+      label: Dusk version or commit
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: MacBook model and chip
+      placeholder: MacBook Air, M3 (no serial number)
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps and settings
+      description: Include the effect, thresholds, and whether Reduce Motion is enabled.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Additional context
+      description: Optional redacted diagnostics or synthetic preview images.
