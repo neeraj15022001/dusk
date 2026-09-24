@@ -1,0 +1,110 @@
+name: Build and release DMG
+
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+    paths:
+      - '.github/workflows/release.yml'
+      - 'scripts/**'
+      - 'Sources/**'
+      - 'Resources/**'
+      - 'Package.swift'
+      - 'docs/INSTALL.txt'
+      - 'docs/releases/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Test and package universal app
+    runs-on: macos-15
+    timeout-minutes: 20
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      commit: ${{ steps.version.outputs.commit }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Validate version and release notes
+        id: version
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' Resources/Info.plist)
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          if [[ "$REF_TYPE" == tag && "$REF_NAME" != "v$VERSION" ]]; then
+            echo "Tag $REF_NAME does not match app version $VERSION" >&2
+            exit 1
+          fi
+          test -s "docs/releases/$VERSION.md"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Show toolchain
+        run: swift --version
+      - name: Run effect and sensor-decoding checks
+        run: bash scripts/test.sh
+      - name: Build and verify universal DMG
+        run: bash scripts/build-dmg.sh
+      - name: Include release notes
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: cp "docs/releases/$VERSION.md" dist/release-notes.md
+      - name: Preserve release files
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dusk-dmg
+          path: |
+            dist/*.dmg
+            dist/*.sha256
+            dist/release-notes.md
+          if-no-files-found: error
+          retention-days: 14
+
+  publish:
+    name: Publish GitHub release
+    if: github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Download verified package
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dusk-dmg
+          path: release
+      - name: Publish DMG and checksum
+        working-directory: release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.build.outputs.version }}
+          BUILD_COMMIT: ${{ needs.build.outputs.commit }}
+        run: |
+          TAG="v$VERSION"
+          DMG="Dusk-$VERSION-universal.dmg"
+          sha256sum --check "$DMG.sha256"
+          test "$(gh api "repos/$GH_REPO/commits/$TAG" --jq .sha)" = "$BUILD_COMMIT"
+          if DRAFT=$(gh release view "$TAG" --json isDraft --jq .isDraft 2>/dev/null); then
+            if [[ "$DRAFT" != true ]]; then
+              echo "Release $TAG is already published. Use a new version instead of replacing public binaries." >&2
+              exit 1
+            fi
+            gh release upload "$TAG" "$DMG" "$DMG.sha256" --clobber
+            gh release edit "$TAG" --notes-file release-notes.md
+          else
+            gh release create "$TAG" "$DMG" "$DMG.sha256" --verify-tag --draft \
+              --title "Dusk $VERSION" --notes-file release-notes.md
+          fi
+          gh release edit "$TAG" --draft=false

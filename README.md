@@ -3,6 +3,7 @@
 ![Dusk — A softer way to close your Mac.](docs/banner.png)
 
 [![macOS CI](https://github.com/neeraj15022001/dusk/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/neeraj15022001/dusk/actions/workflows/ci.yml)
+[![DMG release](https://github.com/neeraj15022001/dusk/actions/workflows/release.yml/badge.svg)](https://github.com/neeraj15022001/dusk/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-386c72)](LICENSE)
 [![macOS 13+](https://img.shields.io/badge/macOS-13%2B-172d3a)](#compatibility)
 [![AI assisted](https://img.shields.io/badge/AI-assisted-386c72)](AI_POLICY.md)
@@ -13,7 +14,7 @@ Dusk is a native macOS menu bar app that follows your MacBook's hinge angle. Fiv
 
 No desktop recording, telemetry, network service, or third-party package dependencies. Built with Swift, SwiftUI, AppKit, and IOKit.
 
-[Website & interactive demo](https://neeraj15022001.github.io/dusk/) · [Get started](#build-and-run) · [Effects](#effects) · [Contribute](CONTRIBUTING.md) · [AI disclosure](AI_POLICY.md) · [Changelog](CHANGELOG.md)
+[Website & interactive demo](https://neeraj15022001.github.io/dusk/) · [Download](https://github.com/neeraj15022001/dusk/releases/latest) · [Build from source](#build-and-run) · [Effects](#effects) · [Contribute](CONTRIBUTING.md) · [AI disclosure](AI_POLICY.md) · [Changelog](CHANGELOG.md)
 
 The [landing website](https://neeraj15022001.github.io/dusk/) includes an interactive Three.js laptop with all five effects. It is a synthetic demonstration, not a browser hinge sensor. GitHub Actions builds and deploys it to GitHub Pages; source and development instructions are in [`website/`](website/README.md).
 
@@ -26,7 +27,11 @@ The [landing website](https://neeraj15022001.github.io/dusk/) includes an intera
 
 ## Build and run
 
-The initial release is **source-first**. No Developer ID signed or notarized download is supplied. Install Command Line Tools with `xcode-select --install` if needed, then:
+To install without a compiler, download the **universal DMG** and matching `.sha256` file from [GitHub Releases](https://github.com/neeraj15022001/dusk/releases/latest). The app includes Apple Silicon (`arm64`) and Intel (`x86_64`) code. Open the DMG, drag Dusk to Applications, eject it, then open Dusk from Applications.
+
+**Signing:** release downloads and local builds are ad-hoc signed, not Developer ID signed or notarized by Apple. macOS may block the first launch. Only proceed if you trust the project and download; follow [Apple's per-app guidance](https://support.apple.com/en-us/102445). Do not disable Gatekeeper globally. Verify the download with `shasum -a 256 -c Dusk-VERSION-universal.dmg.sha256`, replacing `VERSION` with the release version. Checksums verify file integrity, not an Apple-verified publisher.
+
+To build from source, install Command Line Tools with `xcode-select --install` if needed, then:
 
 ```sh
 git clone https://github.com/neeraj15022001/dusk.git
@@ -36,6 +41,8 @@ open dist/Dusk.app
 ```
 
 The script builds for your Mac's architecture, assembles `dist/Dusk.app`, includes licensing notices, and applies an ad-hoc signature. No full Xcode project is required. Quit any running Dusk instance before opening a rebuilt copy.
+
+Maintainers can run `bash scripts/build-dmg.sh` to build both architectures, verify the combined bundle, and create a compressed DMG plus checksum in `dist/`. The [release workflow](.github/workflows/release.yml) runs these steps on macOS and publishes assets for matching `vX.Y.Z` tags. See the [release guide](docs/RELEASING.md).
 
 The app opens settings and adds a moon icon to the menu bar. Closing settings leaves Dusk running. Choose **Quit Dusk** from that menu or press **Command–Q** in settings to stop it. To uninstall, quit and remove `Dusk.app`.
 

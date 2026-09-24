@@ -35,6 +35,8 @@ For website changes, follow [`website/README.md`](website/README.md). Use Node.j
 
 Run the commands above and report their actual results. Add regression coverage when changing effect math, HID decoding, or lifecycle behavior that can be tested meaningfully. Do not add tests that merely restate implementation details.
 
+For packaging changes, also run `bash scripts/build-dmg.sh` and follow the [release guide](docs/RELEASING.md). Pull requests affecting packaging run the DMG workflow without publishing a release.
+
 For visual changes, regenerate the synthetic contact sheet:
 
 ```sh

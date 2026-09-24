@@ -1,0 +1,30 @@
+Dusk for macOS
+
+Requires macOS 13 or newer. The app includes Apple Silicon (arm64) and Intel
+(x86_64) code. Automatic effects require a compatible MacBook hinge sensor;
+including an architecture does not certify every model. Unsupported sensors
+leave the desktop clear. The app's simulator and preview remain available.
+
+Installation
+1. Quit any running copy of Dusk.
+2. Drag Dusk.app to the Applications shortcut in this disk image.
+3. Eject the disk image and open Dusk from Applications.
+
+This application is ad-hoc signed, not Developer ID signed or notarized by
+Apple. macOS may block its first launch. Only open it if you trust this project
+and this download. Follow Apple's per-app instructions if you choose to proceed:
+https://support.apple.com/en-us/102445
+Do not disable Gatekeeper globally. Building from reviewed source is also an
+option: https://github.com/neeraj15022001/dusk#build-and-run
+
+Download the matching .dmg.sha256 file alongside the DMG, then verify it in
+Terminal with: shasum -a 256 -c Dusk-VERSION-universal.dmg.sha256
+Replace VERSION with the downloaded release version. A matching checksum
+checks file integrity; it does not establish an Apple-verified publisher.
+
+Dusk appears in the menu bar. Control-Option-Command-K pauses its effects.
+To uninstall, quit Dusk and remove Dusk.app from Applications.
+
+MIT license and third-party notices are included in Dusk.app/Contents/Resources.
+Project, support, source, and AI-assistance disclosure:
+https://github.com/neeraj15022001/dusk

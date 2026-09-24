@@ -18,4 +18,4 @@ Dusk reads a local HID hinge sensor and draws a click-through overlay on the bui
 
 The overlay is a visual effect, not a lock screen or privacy boundary. It does not protect displayed information from other apps, screenshots, or observers. MacOS sleep and authentication remain the operating system's responsibility.
 
-Local app builds are ad-hoc signed and are not Developer ID signed or notarized. Build from source you have reviewed; do not disable Gatekeeper globally. No independent security audit has been performed.
+Release downloads and local app builds are ad-hoc signed and are not Developer ID signed or notarized. Release assets include SHA-256 checksums for file integrity; these do not establish an Apple-verified publisher. Only open downloads you trust, or build from source you have reviewed; do not disable Gatekeeper globally. No independent security audit has been performed.

@@ -12,6 +12,7 @@ The initial release's automated checks and build were run through the developmen
 - `docs/effects-preview.png`: rendered deterministically by Dusk from synthetic artwork; it is not a recording of a personal desktop.
 - App interface icons use macOS system symbol APIs. No Apple symbol artwork is redistributed as standalone assets.
 - The landing page's Three.js model, shader previews, synthetic artwork, and implementation were also developed with Codex assistance. It does not read a visitor's screen or hinge sensor.
+- The universal DMG packaging script, release workflow, and installation documentation received Codex assistance. Automated packaging checks do not constitute signing by an identified publisher, notarization, or physical hardware validation.
 - Hardware research and API references are listed in [third-party notes](THIRD_PARTY_NOTICES.md). No external implementation is vendored.
 
 Private development conversations, machine logs, credentials, and tool caches are not part of this repository. Publishing a complete chat transcript is not required to contribute.
