@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build:
-    name: Test and package universal app
+    name: Test and package all architectures
     runs-on: macos-15
     timeout-minutes: 20
     outputs:
@@ -53,7 +53,7 @@ jobs:
         run: swift --version
       - name: Run effect and sensor-decoding checks
         run: bash scripts/test.sh
-      - name: Build and verify universal DMG
+      - name: Build and verify arm64, Intel, and universal DMGs
         run: bash scripts/build-dmg.sh
       - name: Include release notes
         env:
@@ -84,7 +84,7 @@ jobs:
         with:
           name: dusk-dmg
           path: release
-      - name: Publish DMG and checksum
+      - name: Publish three DMGs and checksums
         working-directory: release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -93,18 +93,22 @@ jobs:
           BUILD_COMMIT: ${{ needs.build.outputs.commit }}
         run: |
           TAG="v$VERSION"
-          DMG="Dusk-$VERSION-universal.dmg"
-          sha256sum --check "$DMG.sha256"
+          ASSETS=()
+          for ARCH in arm64 x86_64 universal; do
+            DMG="Dusk-$VERSION-$ARCH.dmg"
+            sha256sum --check "$DMG.sha256"
+            ASSETS+=("$DMG" "$DMG.sha256")
+          done
           test "$(gh api "repos/$GH_REPO/commits/$TAG" --jq .sha)" = "$BUILD_COMMIT"
           if DRAFT=$(gh release view "$TAG" --json isDraft --jq .isDraft 2>/dev/null); then
             if [[ "$DRAFT" != true ]]; then
               echo "Release $TAG is already published. Use a new version instead of replacing public binaries." >&2
               exit 1
             fi
-            gh release upload "$TAG" "$DMG" "$DMG.sha256" --clobber
+            gh release upload "$TAG" "${ASSETS[@]}" --clobber
             gh release edit "$TAG" --notes-file release-notes.md
           else
-            gh release create "$TAG" "$DMG" "$DMG.sha256" --verify-tag --draft \
+            gh release create "$TAG" "${ASSETS[@]}" --verify-tag --draft \
               --title "Dusk $VERSION" --notes-file release-notes.md
           fi
           gh release edit "$TAG" --draft=false

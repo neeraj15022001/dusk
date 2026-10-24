@@ -18,6 +18,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         quitItem.target = self
         appItem.submenu = appMenu
         mainMenu.addItem(appItem)
+        let viewItem = NSMenuItem()
+        let viewMenu = NSMenu(title: "View")
+        let fullScreenItem = viewMenu.addItem(withTitle: "Enter Full Screen", action: #selector(NSWindow.toggleFullScreen(_:)), keyEquivalent: "f")
+        fullScreenItem.keyEquivalentModifierMask = [.control, .command]
+        viewItem.submenu = viewMenu
+        mainMenu.addItem(viewItem)
         NSApp.mainMenu = mainMenu
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = NSImage(systemSymbolName: "moon.haze", accessibilityDescription: "Dusk")
@@ -69,12 +75,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc func showSettings() {
         if settingsWindow == nil {
             let content = NSHostingView(rootView: SettingsView(model: model))
-            let size = content.fittingSize
+            let size = NSSize(width: 780, height: 640)
             let window = NSWindow(contentRect: NSRect(origin: .zero, size: size),
-                                  styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
+                                  styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
             window.title = "Dusk"
             window.titlebarAppearsTransparent = true
             window.isReleasedWhenClosed = false
+            window.contentMinSize = size
+            window.collectionBehavior = [.fullScreenPrimary]
             window.contentView = content
             window.center()
             settingsWindow = window

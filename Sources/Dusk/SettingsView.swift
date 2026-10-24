@@ -19,9 +19,9 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 20) {
             HStack(alignment: .top) {
                 HStack(spacing: 12) {
-                    Image(systemName: "moon.haze.fill")
-                        .font(.system(size: 28, weight: .light))
-                        .foregroundStyle(DuskStyle.teal)
+                    Image(nsImage: NSApplication.shared.applicationIconImage)
+                        .resizable().scaledToFit().frame(width: 44, height: 44)
+                        .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 3) {
                         Text("Dusk").font(.system(size: 29, weight: .semibold, design: .rounded))
                         Text("A softer way to close your Mac.").font(.system(size: 13)).foregroundStyle(.secondary)
@@ -116,7 +116,8 @@ struct SettingsView: View {
             }.font(.system(size: 10)).foregroundStyle(.secondary)
         }
         .padding(24)
-        .frame(width: 780, height: 640, alignment: .top)
+        .frame(maxWidth: 1000)
+        .frame(minWidth: 780, maxWidth: .infinity, minHeight: 640, maxHeight: .infinity)
         .background(DuskStyle.paper)
         .foregroundStyle(DuskStyle.ink)
         .preferredColorScheme(.light)
